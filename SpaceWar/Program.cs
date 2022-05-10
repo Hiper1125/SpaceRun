@@ -47,11 +47,13 @@ namespace SpaceWar
             //set console width and height
             Console.SetWindowSize(width, height);
 
+            //lock console size
+            Console.SetBufferSize(width, height);
+
             //set console title
             Console.Title = "Space War";
 
             Console.CursorVisible = false;
-
         }
 
         private static void MenuLoop(bool hardReset = false)
@@ -126,9 +128,7 @@ namespace SpaceWar
             while (isInSubMenu)
             {
                 if (Console.KeyAvailable)
-                {
-                    Utility.Clear();
-                    
+                {               
                     var key = Console.ReadKey(true).Key;
 
                     if (key == ConsoleKey.UpArrow)
