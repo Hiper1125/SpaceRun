@@ -1,5 +1,6 @@
 ﻿using System;
 using SpaceWar.Pages;
+using SpaceWar.Tools;
 
 namespace SpaceWar
 {
@@ -47,6 +48,8 @@ namespace SpaceWar
             //set console title
             Console.Title = "Space War";
 
+            Console.CursorVisible = false;
+
         }
 
         private static void MenuLoop(bool hardReset = false)
@@ -65,7 +68,7 @@ namespace SpaceWar
             { 
                 if (Console.KeyAvailable)
                 {
-                    Console.Clear();
+                    Utility.Clear();
 
                     var key = Console.ReadKey(true).Key;
 
@@ -94,6 +97,7 @@ namespace SpaceWar
                     }
 
                     Menu.Draw(0, selectedIndex);
+                    Console.Beep();
                 }
             }
         }
@@ -108,7 +112,7 @@ namespace SpaceWar
                 selectedIndex = 0;
             }
 
-            Console.Clear();
+            Utility.Clear();
 
             switch (selectedIndex)
             {
@@ -121,7 +125,7 @@ namespace SpaceWar
             {
                 if (Console.KeyAvailable)
                 {
-                    Console.Clear();
+                    Utility.Clear();
                     
                     var key = Console.ReadKey(true).Key;
 
@@ -149,7 +153,7 @@ namespace SpaceWar
                         isInSubMenu = false;
                     }
 
-                    Console.Clear();
+                    Utility.Clear();
 
                     Menu.DrawSub(selectedIndex, 0, selectedSubIndex); break;
                 }

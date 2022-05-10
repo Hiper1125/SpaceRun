@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Text;
 
 namespace SpaceWar.Tools
 {
     internal class Utility
     {
+        // Clear this if window size changes
+        protected static string clearBuffer = null;
+
         public static void Write(string text, bool center = false)
         {
             if (center)
@@ -30,12 +34,37 @@ namespace SpaceWar.Tools
             }
         }
 
-
         public static void InvertColors()
         {
             var fontColor = Console.ForegroundColor;
             Console.ForegroundColor = Console.BackgroundColor;
             Console.BackgroundColor = fontColor;
+        }
+
+        public static void SetColors(ConsoleColor fontColor, ConsoleColor backgroundColor = ConsoleColor.Black)
+        {
+            Console.ForegroundColor = fontColor;
+            Console.BackgroundColor = backgroundColor;
+        }
+
+        public static void Clear()
+        {
+            if (clearBuffer == null)
+            {
+                var line = "".PadLeft(Console.WindowWidth, ' ');
+                var lines = new StringBuilder();
+
+                for (var i = 0; i < Console.WindowHeight; i++)
+                {
+                    lines.AppendLine(line);
+                }
+
+                clearBuffer = lines.ToString();
+            }
+
+            Console.SetCursorPosition(0, 0);
+            Console.Write(clearBuffer);
+            Console.SetCursorPosition(0, 0);
         }
     }
 
