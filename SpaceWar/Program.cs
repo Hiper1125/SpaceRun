@@ -19,6 +19,8 @@ namespace SpaceWar
         {
             SetupConsole();
 
+            //Utility.DrawBorder(Console.WindowWidth - 2, Console.WindowHeight - 2, ConsoleColor.White);
+
             while (true)
             {
                 if (isInMenu)
@@ -40,7 +42,7 @@ namespace SpaceWar
             }
         }
 
-        private static void SetupConsole(int width = 123, int height = 50)
+        private static void SetupConsole(int width = 128, int height = 50)
         {
             //set console width and height
             Console.SetWindowSize(width, height);

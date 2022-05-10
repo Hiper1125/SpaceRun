@@ -16,7 +16,7 @@ namespace SpaceWar.Pages
   \:\ \:\__\        \::/  /       \::/  /   \:\  \        \:\ \:\__\             \::/_/:/  /       \::/  /     |:|::/  / 
    \:\/:/  /         \/__/        /:/  /     \:\  \        \:\ \/__/              \:\/:/  /        /:/  /      |:|\/__/  
     \::/  /                      /:/  /       \:\__\        \:\__\                 \::/  /        /:/  /       |:|  |    
-     \/__/                       \/__/         \/__/         \/__/                  \/__/         \/__/         \|__|   ";
+   \/__/                       \/__/         \/__/         \/__/                  \/__/         \/__/         \|__|   ";
 
         static string[] menuItems = { "Play game", "Set difficulty", "Quit" };
 
@@ -38,10 +38,12 @@ namespace SpaceWar.Pages
             //split the game name into lines
             string[] gameNameLines = gameName.Split('\n');
 
+            Utility.SkipLines(4);
+
             //draw each line and wait 1 second
             foreach (string line in gameNameLines)
             {
-                Console.WriteLine(line);
+                Utility.WriteLine(line, true);
                 System.Threading.Thread.Sleep(speed);
             }
 
@@ -70,7 +72,7 @@ namespace SpaceWar.Pages
             //draw each line and wait 1 second
             foreach (string line in menuNameLines)
             {
-                Console.WriteLine(line);
+                Utility.WriteLine(line, true);
                 System.Threading.Thread.Sleep(speed);
             }
 
