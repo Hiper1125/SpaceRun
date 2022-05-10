@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Diagnostics;
 
 namespace SpaceWar.Tools
 {
@@ -47,7 +48,7 @@ namespace SpaceWar.Tools
             Console.BackgroundColor = backgroundColor;
         }
 
-        public static void Clear()
+        public static void Clear(bool animate = false)
         {
             if (clearBuffer == null)
             {
@@ -65,28 +66,41 @@ namespace SpaceWar.Tools
             Console.SetCursorPosition(0, 0);
             Console.Write(clearBuffer);
             Console.SetCursorPosition(0, 0);
+
+            if (animate)
+            {
+                
+            }
         }
 
-        //draw a square at the screen border function with setcursor
-        public static void DrawBorder(int width, int height, ConsoleColor color = ConsoleColor.White)
+        //draw a square at the screen border function without overlapping previous content
+        public static void DrawSquare(int x, int y, int width, int height, ConsoleColor color)
         {
             SetColors(color);
-            Console.SetCursorPosition(0, 0);
-            for (int i = 0; i < width; i++)
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine(new string('*', width));
+            Console.SetCursorPosition(x, y + height - 1);
+            Console.WriteLine(new string('*', width));
+            for (int i = 1; i < height - 1; i++)
             {
-                Console.Write("#");
+                Console.SetCursorPosition(x, y + i);
+                Console.Write("*");
+                Console.SetCursorPosition(x + width - 1, y + i);
+                Console.Write("*");
             }
-            Console.WriteLine();
-            for (int i = 0; i < height; i++)
+            Console.ResetColor();
+        }
+
+
+        private static void Sleep(double durationSeconds)
+        {
+            var durationTicks = Math.Round(durationSeconds * Stopwatch.Frequency);
+            var sw = Stopwatch.StartNew();
+
+            while (sw.ElapsedTicks < durationTicks)
             {
-                Console.Write("#");
-                for (int j = 0; j < width - 2; j++)
-                {
-                    Console.Write(" ");
-                }
-                Console.WriteLine("#");
 
             }
-        }
+        } 
     }
 }

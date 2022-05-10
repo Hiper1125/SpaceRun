@@ -1,6 +1,7 @@
-﻿using System;
-using SpaceWar.Pages;
+﻿using SpaceWar.Pages;
 using SpaceWar.Tools;
+using System;
+using System.Threading;
 
 namespace SpaceWar
 {
@@ -14,12 +15,21 @@ namespace SpaceWar
         private static bool isInSubMenu = false;
         private static bool isInGame = false;
 
-
         static void Main(string[] args)
         {
             SetupConsole();
 
-            //Utility.DrawBorder(Console.WindowWidth - 2, Console.WindowHeight - 2, ConsoleColor.White);
+
+            Thread t = new Thread(() =>
+            {
+                while (true)
+               {
+                    Utility.DrawSquare(0, 0, Console.WindowWidth, Console.WindowHeight, ConsoleColor.Yellow);
+                    Thread.Sleep(1000);
+                }
+            });
+            //t.Start();
+            
 
             while (true)
             {
@@ -65,6 +75,8 @@ namespace SpaceWar
                 isInGame = false;
                 selectedIndex = 0;
             }
+
+            Utility.Clear(true);
 
             Menu.Draw(35, selectedIndex);
 
@@ -116,19 +128,21 @@ namespace SpaceWar
                 selectedIndex = 0;
             }
 
-            Utility.Clear();
+            Utility.Clear(true);
 
             switch (selectedIndex)
             {
                 case 0: isInSubMenu = false; isInGame = true; break;
-                case 1: Menu.DrawSub(selectedSubIndex, 0, selectedSubIndex); break;
+                case 1: Menu.DrawSub(selectedIndex, 35, selectedSubIndex); break;
                 case 2: isInSubMenu = false; break;
             }
 
             while (isInSubMenu)
             {
                 if (Console.KeyAvailable)
-                {               
+                {
+                    Utility.Clear();
+
                     var key = Console.ReadKey(true).Key;
 
                     if (key == ConsoleKey.UpArrow)
@@ -153,20 +167,18 @@ namespace SpaceWar
                     {
                         isInMenu = true;
                         isInSubMenu = false;
+                        difficulty = selectedSubIndex + 1;
                     }
 
-                    Utility.Clear();
-
-                    Menu.DrawSub(selectedIndex, 0, selectedSubIndex); break;
+                    Menu.DrawSub(selectedIndex, 0, selectedSubIndex);
+                    Console.Beep();
                 }
-
-                Menu.DrawSub(selectedIndex, 35, selectedSubIndex); break;
             }
         }
 
         private static void GameLoop()
         {
-
+            var game = new Pages.Game(difficulty);
         }
     }
 }
