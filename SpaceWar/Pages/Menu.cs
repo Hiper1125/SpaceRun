@@ -40,7 +40,13 @@ namespace SpaceWar.Pages
  | |__| | | | | | | | (__| |_| | | |_| |_| |
  |_____/|_|_| |_| |_|\___|\__,_|_|\__|\__, |
                                        __/ |
-                                      |___/ ", "" };
+                                      |___/ ", "", @"
+   _____            _             _     
+  / ____|          | |           | |    
+ | |     ___  _ __ | |_ _ __ ___ | |___ 
+ | |    / _ \| '_ \| __| '__/ _ \| / __|
+ | |___| (_) | | | | |_| | | (_) | \__ \
+  \_____\___/|_| |_|\__|_|  \___/|_|___/ " };
         static string[] subMenuItems = { "Easy", "Normal", "Hard" };
 
         public static void Draw(int speed = 15, int selectedIndex = 0)
@@ -58,7 +64,7 @@ namespace SpaceWar.Pages
                 {
                     Utility.WriteLine(line, true);
                     System.Threading.Thread.Sleep(speed);
-                }          
+                }
             }
 
             Utility.SkipLines(4);
@@ -94,19 +100,43 @@ namespace SpaceWar.Pages
 
             Utility.SkipLines(menuNameLines.Length);
 
-            for (int i = 0; i < subMenuItems.Length; i++)
+            if (index == 1)
             {
-                if (i == selectedIndex)
+                for (int i = 0; i < subMenuItems.Length; i++)
                 {
-                    Utility.InvertColors();
-                }
+                    if (i == selectedIndex)
+                    {
+                        Utility.InvertColors();
+                    }
 
-                Utility.WriteLine(subMenuItems[i], true);
-                Utility.ResetColors();
-                Utility.SkipLines(2);
+                    Utility.WriteLine(subMenuItems[i], true);
+                    Utility.ResetColors();
+                    Utility.SkipLines(2);
+                }
+            }
+            else if (index == 3)
+            {
+                DrawControls();
             }
 
             Utility.SkipLines(menuNameLines.Length);
+        }
+
+
+        public static void DrawControls()
+        {
+
+            string controls = @"";
+
+            Utility.WriteLine(controls, true);
+            
+            Utility.SkipLines(4);
+            
+            Utility.WriteLine("Use the arrow keys or A-D keys to move your spaceship", true);
+
+            Utility.SkipLines(2);
+
+            Utility.WriteLine("Press any key to start ", true);
         }
     }
 }

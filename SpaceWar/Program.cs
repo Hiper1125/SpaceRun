@@ -23,6 +23,7 @@ namespace SpaceWar
             //create a thread and play music
             Thread musicThread = new Thread(() =>
             {
+                Utility.Sleep(1.3);
                 SoundManager.PlayMusic();
             });
             musicThread.Start();
@@ -177,7 +178,15 @@ namespace SpaceWar
 
         private static void GameLoop()
         {
+            Menu.DrawSub(3, 0, selectedSubIndex);
+
+            Console.ReadKey();
+
+            Utility.Clear();
+
             var game = new Pages.Game(difficulty);
+
+            Console.ReadKey();
         }
     }
 }

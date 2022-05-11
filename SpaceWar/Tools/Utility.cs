@@ -73,26 +73,7 @@ namespace SpaceWar.Tools
             }
         }
 
-        //draw a square at the screen border function without overlapping previous content
-        public static void DrawSquare(int x, int y, int width, int height, ConsoleColor color)
-        {
-            SetColors(color);
-            Console.SetCursorPosition(x, y);
-            Console.WriteLine(new string('*', width));
-            Console.SetCursorPosition(x, y + height - 1);
-            Console.WriteLine(new string('*', width));
-            for (int i = 1; i < height - 1; i++)
-            {
-                Console.SetCursorPosition(x, y + i);
-                Console.Write("*");
-                Console.SetCursorPosition(x + width - 1, y + i);
-                Console.Write("*");
-            }
-            Utility.ResetColors();
-        }
-
-
-        private static void Sleep(double durationSeconds)
+        public static void Sleep(double durationSeconds)
         {
             var durationTicks = Math.Round(durationSeconds * Stopwatch.Frequency);
             var sw = Stopwatch.StartNew();
