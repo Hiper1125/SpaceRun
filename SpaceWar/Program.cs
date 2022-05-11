@@ -20,16 +20,13 @@ namespace SpaceWar
             SetupConsole();
 
 
-            Thread t = new Thread(() =>
+            //create a thread and play music
+            Thread musicThread = new Thread(() =>
             {
-                while (true)
-               {
-                    Utility.DrawSquare(0, 0, Console.WindowWidth, Console.WindowHeight, ConsoleColor.Yellow);
-                    Thread.Sleep(1000);
-                }
+                SoundManager.PlayMusic();
             });
-            //t.Start();
-            
+            musicThread.Start();
+
 
             while (true)
             {
@@ -52,7 +49,7 @@ namespace SpaceWar
             }
         }
 
-        private static void SetupConsole(int width = 128, int height = 50)
+        private static void SetupConsole(int width = 100, int height = 41)
         {
             //set console width and height
             Console.SetWindowSize(width, height);
@@ -61,9 +58,11 @@ namespace SpaceWar
             Console.SetBufferSize(width, height);
 
             //set console title
-            Console.Title = "Space War";
+            Console.Title = "Space Wars";
 
             Console.CursorVisible = false;
+
+            Utility.SetColors(ConsoleColor.Yellow, ConsoleColor.Black);
         }
 
         private static void MenuLoop(bool hardReset = false)
@@ -133,7 +132,7 @@ namespace SpaceWar
             switch (selectedIndex)
             {
                 case 0: isInSubMenu = false; isInGame = true; break;
-                case 1: Menu.DrawSub(selectedIndex, 35, selectedSubIndex); break;
+                case 1: Menu.DrawSub(selectedIndex, 0, selectedSubIndex); break;
                 case 2: isInSubMenu = false; break;
             }
 

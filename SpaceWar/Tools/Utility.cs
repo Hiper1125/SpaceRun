@@ -18,7 +18,7 @@ namespace SpaceWar.Tools
             }
 
             Console.Write(text);
-            Console.ResetColor();
+            Utility.ResetColors();
         }
 
         public static void WriteLine(string text, bool center = false)
@@ -69,7 +69,7 @@ namespace SpaceWar.Tools
 
             if (animate)
             {
-                
+                ResetColors();
             }
         }
 
@@ -88,7 +88,7 @@ namespace SpaceWar.Tools
                 Console.SetCursorPosition(x + width - 1, y + i);
                 Console.Write("*");
             }
-            Console.ResetColor();
+            Utility.ResetColors();
         }
 
 
@@ -101,6 +101,11 @@ namespace SpaceWar.Tools
             {
 
             }
-        } 
+        }
+
+        public static void ResetColors(ConsoleColor fontColor = ConsoleColor.Yellow, ConsoleColor backgroundColor = ConsoleColor.Black)
+        {
+            SetColors(fontColor, backgroundColor);
+        }
     }
 }

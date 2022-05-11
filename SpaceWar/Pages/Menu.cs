@@ -5,18 +5,30 @@ namespace SpaceWar.Pages
 {
     internal class Menu
     {
-        static string gameName = @"      
-      ___           ___           ___           ___           ___                    ___           ___           ___     
-     /\  \         /\  \         /\  \         /\  \         /\  \                  /\__\         /\  \         /\  \    
-    /::\  \       /::\  \       /::\  \       /::\  \       /::\  \                /:/ _/_       /::\  \       /::\  \   
-   /:/\ \  \     /:/\:\  \     /:/\:\  \     /:/\:\  \     /:/\:\  \              /:/ /\__\     /:/\:\  \     /:/\:\  \  
-  _\:\~\ \  \   /::\~\:\  \   /::\~\:\  \   /:/  \:\  \   /::\~\:\  \            /:/ /:/ _/_   /::\~\:\  \   /::\~\:\  \ 
- /\ \:\ \ \__\ /:/\:\ \:\__\ /:/\:\ \:\__\ /:/__/ \:\__\ /:/\:\ \:\__\          /:/_/:/ /\__\ /:/\:\ \:\__\ /:/\:\ \:\__\
- \:\ \:\ \/__/ \/__\:\/:/  / \/__\:\/:/  / \:\  \  \/__/ \:\~\:\ \/__/          \:\/:/ /:/  / \/__\:\/:/  / \/_|::\/:/  /
-  \:\ \:\__\        \::/  /       \::/  /   \:\  \        \:\ \:\__\             \::/_/:/  /       \::/  /     |:|::/  / 
-   \:\/:/  /         \/__/        /:/  /     \:\  \        \:\ \/__/              \:\/:/  /        /:/  /      |:|\/__/  
-    \::/  /                      /:/  /       \:\__\        \:\__\                 \::/  /        /:/  /       |:|  |    
-   \/__/                       \/__/         \/__/         \/__/                  \/__/         \/__/         \|__|   ";
+        static string[] gameNames = { @"
+      ___                         ___           ___           ___     
+     /  /\          ___          /  /\         /  /\         /  /\    
+    /  /::\        /  /\        /  /::\       /  /::\       /  /::\   
+   /__/:/\:\      /  /::\      /  /:/\:\     /  /:/\:\     /  /:/\:\  
+  _\_ \:\ \:\    /  /:/\:\    /  /::\ \:\   /  /:/  \:\   /  /::\ \:\ 
+ /__/\ \:\ \:\  /  /::\ \:\  /__/:/\:\_\:\ /__/:/ \  \:\ /__/:/\:\ \:\
+ \  \:\ \:\_\/ /__/:/\:\_\:\ \__\/  \:\/:/ \  \:\  \__\/ \  \:\ \:\_\/
+  \  \:\_\:\   \__\/  \:\/:/      \__\::/   \  \:\        \  \:\ \:\  
+   \  \:\/:/        \  \::/       /  /:/     \  \:\        \  \:\_\/  
+    \  \::/          \__\/       /__/:/       \  \:\        \  \:\    
+     \__\/                       \__\/         \__\/         \__\/    
+", @"
+                      ___           ___           ___           ___                   
+                     /  /\         /  /\         /  /\         /  /\                  
+                    /  /:/_       /  /::\       /  /::\       /  /::\                 
+                   /  /:/ /\     /  /:/\:\     /  /:/\:\     /__/:/\:\                
+                  /  /:/ /:/_   /  /::\ \:\   /  /::\ \:\   _\_ \:\ \:\               
+                 /__/:/ /:/ /\ /__/:/\:\_\:\ /__/:/\:\_\:\ /__/\ \:\ \:\              
+                 \  \:\/:/ /:/ \__\/  \:\/:/ \__\/~|::\/:/ \  \:\ \:\_\/              
+                  \  \::/ /:/       \__\::/     |  |:|::/   \  \:\_\:\                
+                   \  \:\/:/        /  /:/      |  |:|\/     \  \:\/:/                
+                    \  \::/        /__/:/       |__|:|~       \  \::/                 
+                     \__\/         \__\/         \__\|         \__\/                  " };
 
         static string[] menuItems = { "Play game", "Set difficulty", "Quit" };
 
@@ -35,37 +47,33 @@ namespace SpaceWar.Pages
         {
             System.Threading.Thread.Sleep(speed);
 
-            //split the game name into lines
-            string[] gameNameLines = gameName.Split('\n');
+            foreach (var name in gameNames)
+            {
+                string[] gameNameLines = name.Split('\n');
+
+                Utility.SkipLines(1);
+
+                //draw each line and wait 1 second
+                foreach (string line in gameNameLines)
+                {
+                    Utility.WriteLine(line, true);
+                    System.Threading.Thread.Sleep(speed);
+                }          
+            }
 
             Utility.SkipLines(4);
 
-            //draw each line and wait 1 second
-            foreach (string line in gameNameLines)
+            for (int i = 0; i < menuItems.Length; i++)
             {
-                Utility.SetColors(ConsoleColor.Yellow, ConsoleColor.Black);
-                Utility.WriteLine(line, true);
-                System.Threading.Thread.Sleep(speed);
-            }
-            
-            Utility.SetColors(ConsoleColor.White, ConsoleColor.Black);
-
-            Utility.SkipLines(gameNameLines.Length);
-            
-            for(int i = 0; i < menuItems.Length; i++)
-            {
-                if(i == selectedIndex)
+                if (i == selectedIndex)
                 {
                     Utility.InvertColors();
                 }
 
                 Utility.WriteLine(menuItems[i], true);
-                Console.ResetColor();
+                Utility.ResetColors();
                 Utility.SkipLines(2);
             }
-
-            Utility.SkipLines(gameNameLines.Length);
-
         }
 
         public static void DrawSub(int index = 0, int speed = 15, int selectedIndex = 0)
@@ -80,7 +88,6 @@ namespace SpaceWar.Pages
             //draw each line and wait 1 second
             foreach (string line in menuNameLines)
             {
-                Utility.SetColors(ConsoleColor.DarkYellow, ConsoleColor.Black);
                 Utility.WriteLine(line, true);
                 System.Threading.Thread.Sleep(speed);
             }
@@ -95,7 +102,7 @@ namespace SpaceWar.Pages
                 }
 
                 Utility.WriteLine(subMenuItems[i], true);
-                Console.ResetColor();
+                Utility.ResetColors();
                 Utility.SkipLines(2);
             }
 
