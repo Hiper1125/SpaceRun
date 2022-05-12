@@ -9,41 +9,53 @@ namespace SpaceWar.Pages
     internal class Meteor
     {
         private string meteor = @"-O-";
-        private Thread moveThread = null;
-        private int height = 0;
-        private int xPos = 0;
 
         public Meteor()
         {
+            Thread moveThread = null;
+
             Random rnd = new Random();
 
-            xPos = rnd.Next(0, Console.WindowWidth - meteor.Length);
-
+            int xPos = rnd.Next(0, Console.WindowWidth - meteor.Length);
+            int height = 0;
 
             moveThread = new Thread(() =>
-            {
-                while (height < Console.WindowHeight + 1)
                 {
-                    if(height > 0)
+                    while (height < Console.WindowHeight + 1 && Program.isInGame)
                     {
-                        Console.SetCursorPosition(xPos, height - 1);
-                        Console.Write("\b    ");
-                    }
+                        if (height > 0)
+                        {
+                            Console.SetCursorPosition(xPos, height - 1);
+                            Console.Write("   ");
+                        }
 
-                    if(height < Console.WindowHeight)
-                    {
-                        Console.SetCursorPosition(xPos, height);
-                        Console.Write(meteor);
+                        if (height < Console.WindowHeight)
+                        {
+                            //if meteor touch the spacecraft then game over
+
+                            var overwrite = Utility.ReadAt(xPos, height);
+
+                            if (overwrite.ToString() == " " || int.TryParse(overwrite.ToString(), out int number) == true)
+                            {
+                                Console.SetCursorPosition(xPos, height);
+                                Console.Write(meteor);
+
+                                Utility.Sleep(0.1);
+                                height++;
+                            }
+                            else
+                            {
+                                Program.GameOver();   
+                            }
+                        }
 
                         Utility.Sleep(0.1);
-                        height++;
                     }
-                }
-            });
+                });
             moveThread.Start();
         }
     }
-    
+
     internal class Game
     {
         private static int padding = 48;
@@ -83,6 +95,8 @@ namespace SpaceWar.Pages
 
         public Game(int difficulty)
         {
+            score = 0;
+            
             for (int i = 0; i < 25 / 2; i++)
             {
                 Utility.SkipLines(10);
@@ -142,15 +156,31 @@ namespace SpaceWar.Pages
             Utility.SkipLines(30);
             Utility.WriteLine(spacecraft);
 
-            //Create a thread that spawns meteors based on difficulty on top of the screen, each meteor then keep moving down by a certain speed
+            //Create a thread that spawns meteors based on difficulty
+            Thread meteorThread = new Thread(() =>
+            {
+                Random rnd = new Random();
+
+                while (Program.isInGame)
+                {
+                    new Meteor();
+
+                    switch (difficulty)
+                    {
+                        case 1: Utility.Sleep(2 + rnd.Next(1, 3)); break;
+                        case 2: Utility.Sleep(2 + rnd.Next(1, 2)); break;
+                        case 3: Utility.Sleep(3 + rnd.NextDouble()); break;
+                        default: Utility.Sleep(rnd.Next(1, 3)); break;
+                    }
+                }
+            });
+            meteorThread.Start();
 
 
             Thread spacecraftMovements = new Thread(() =>
             {
-                while (true)
+                while (Program.isInGame)
                 {
-                    if (prevPadding != padding)
-                    {
                         Utility.Clear();
                         Utility.SkipLines(30);
 
@@ -167,6 +197,7 @@ namespace SpaceWar.Pages
                                 spaces += " ";
                             }
 
+                            Console.SetCursorPosition(0, 30 + i);
                             string newLine = line.Trim();
                             newLine = newLine.Insert(0, spaces);
                             Console.WriteLine(newLine);
@@ -175,7 +206,8 @@ namespace SpaceWar.Pages
                         }
 
                         prevPadding = padding;
-                    }
+
+                    Utility.Sleep(0.1);
                 }
             });
             spacecraftMovements.Start();
@@ -183,11 +215,22 @@ namespace SpaceWar.Pages
             //create a thred to increase the score every second
             Thread scoreThread = new Thread(() =>
             {
-                while (true)
+                while (Program.isInGame)
                 {
-                    Utility.Sleep(0.1);
+                    Utility.Sleep(0.08);
                     score++;
                     Console.Title = "Space Run: " + score;
+
+                    Console.SetCursorPosition(0, 2);
+
+                    string spaces = "";
+
+                    for (int i = 0; i < Console.WindowWidth; i++)
+                    {
+                        spaces += " ";
+                    }
+
+                    Console.Write(spaces);
 
                     //draw the score on top of the screen at the middle using setcursor
                     Console.SetCursorPosition(Console.WindowWidth / 2 - score.ToString().Length / 2, 2);

@@ -13,7 +13,7 @@ namespace SpaceWar
 
         private static bool isInMenu = true;
         private static bool isInSubMenu = false;
-        private static bool isInGame = false;
+        public static bool isInGame { private set; get; } = false;
 
         static void Main(string[] args)
         {
@@ -198,6 +198,21 @@ namespace SpaceWar
             {
                 game.CheckControls();
             }
+
+            game = null;
+
+            Utility.Sleep(0.3);
+
+            Console.Clear();
+            Console.Clear();
+            Console.Clear();
+            
+            isInMenu = true;
+        }
+
+        public static void GameOver()
+        {
+            isInGame = false;
         }
     }
 }
