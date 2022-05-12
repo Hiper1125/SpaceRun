@@ -6,6 +6,44 @@ using System.Threading;
 
 namespace SpaceWar.Pages
 {
+    internal class Meteor
+    {
+        private string meteor = @"-O-";
+        private Thread moveThread = null;
+        private int height = 0;
+        private int xPos = 0;
+
+        public Meteor()
+        {
+            Random rnd = new Random();
+
+            xPos = rnd.Next(0, Console.WindowWidth - meteor.Length);
+
+
+            moveThread = new Thread(() =>
+            {
+                while (height < Console.WindowHeight + 1)
+                {
+                    if(height > 0)
+                    {
+                        Console.SetCursorPosition(xPos, height - 1);
+                        Console.Write("\b    ");
+                    }
+
+                    if(height < Console.WindowHeight)
+                    {
+                        Console.SetCursorPosition(xPos, height);
+                        Console.Write(meteor);
+
+                        Utility.Sleep(0.1);
+                        height++;
+                    }
+                }
+            });
+            moveThread.Start();
+        }
+    }
+    
     internal class Game
     {
         private static int padding = 48;
@@ -104,12 +142,7 @@ namespace SpaceWar.Pages
             Utility.SkipLines(30);
             Utility.WriteLine(spacecraft);
 
-            //trim each space craft line and add the normal padding, 
-            //then based on the current padding (calculated by the pressed keys) 
-            //add or remove spaces from each line, so that you generate new lines
-            //wich then you can draw in the correct position (that every frame)
-            //
-
+            //Create a thread that spawns meteors based on difficulty on top of the screen, each meteor then keep moving down by a certain speed
 
 
             Thread spacecraftMovements = new Thread(() =>

@@ -98,10 +98,10 @@ namespace SpaceWar.Pages
                 System.Threading.Thread.Sleep(speed);
             }
 
-            Utility.SkipLines(menuNameLines.Length);
-
             if (index == 1)
             {
+                Utility.SkipLines(menuNameLines.Length);
+
                 for (int i = 0; i < subMenuItems.Length; i++)
                 {
                     if (i == selectedIndex)
@@ -125,18 +125,24 @@ namespace SpaceWar.Pages
 
         public static void DrawControls()
         {
+            Utility.SkipLines(2);
+
             string controls = @"
-                           .                                            .
-                         .;;............ ..              .. ............;;.
-                       .;;;;::::::::::::..                ..::::::::::::;;;;.
-                        ':;;:::::::::::: . .            . . ::::::::::::;;:'
-                          ':                                            :'";
+                            .                                            .
+                          .;;............ ..              .. ............;;.
+                        .;;;;::::::::::::..                ..::::::::::::;;;;.
+                         ':;;:::::::::::: . .            . . ::::::::::::;;:'
+                           ':                                            :'";
 
             Console.WriteLine(controls);
             
             Utility.SkipLines(4);
             
             Utility.WriteLine("Use the arrow keys or A-D keys to move your spaceship", true);
+
+            Utility.SkipLines(1);
+
+            Utility.WriteLine("Dodge the asteroids and try to get as high as you can", true);            
 
             Utility.SkipLines(2);
 
