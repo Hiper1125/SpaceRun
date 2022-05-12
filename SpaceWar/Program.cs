@@ -59,15 +59,19 @@ namespace SpaceWar
             Console.SetBufferSize(width, height);
 
             //set console title
-            Console.Title = "Space Wars";
+            Console.Title = "Space Run";
 
             Console.CursorVisible = false;
 
             Utility.SetColors(ConsoleColor.Yellow, ConsoleColor.Black);
+
+            Utility.DisableResize();
         }
 
         private static void MenuLoop(bool hardReset = false)
         {
+            Console.Clear();
+
             if (hardReset)
             {
                 isInMenu = true;
@@ -120,6 +124,8 @@ namespace SpaceWar
 
         private static void SubMenuLoop(bool hardReset = false)
         {
+            Console.Clear();
+
             if (hardReset)
             {
                 isInMenu = false;
@@ -178,6 +184,8 @@ namespace SpaceWar
 
         private static void GameLoop()
         {
+            Console.Clear();
+
             Menu.DrawSub(3, 0, selectedSubIndex);
 
             Console.ReadKey();
@@ -186,7 +194,10 @@ namespace SpaceWar
 
             var game = new Pages.Game(difficulty);
 
-            Console.ReadKey();
+            while (isInGame)
+            {
+                game.CheckControls();
+            }
         }
     }
 }
