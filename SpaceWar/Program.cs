@@ -17,9 +17,6 @@ namespace SpaceWar
 
         static void Main(string[] args)
         {
-            SetupConsole();
-
-
             //create a thread and play music
             Thread musicThread = new Thread(() =>
             {
@@ -52,6 +49,8 @@ namespace SpaceWar
 
         private static void SetupConsole(int width = 100, int height = 41)
         {
+            Console.Clear();
+
             //set console width and height
             Console.SetWindowSize(width, height);
 
@@ -70,7 +69,7 @@ namespace SpaceWar
 
         private static void MenuLoop(bool hardReset = false)
         {
-            Console.Clear();
+            SetupConsole();
 
             if (hardReset)
             {
