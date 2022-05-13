@@ -27,6 +27,7 @@ namespace SpaceWar
                 Utility.Sleep(1.3);
                 SoundManager.PlayMusic();
             });
+            musicThread.IsBackground = true;
             musicThread.Start();
 
 
@@ -205,6 +206,7 @@ namespace SpaceWar
             while (isInGame)
             {
                 game.CheckControls();
+                Utility.MinimizeFootprint();
             }
 
             game = null;

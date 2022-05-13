@@ -261,5 +261,13 @@ namespace SpaceWar.Tools
 
             return true;
         }
+
+        [DllImport("psapi.dll")]
+        static extern int EmptyWorkingSet(IntPtr hwProc);
+
+        static public void MinimizeFootprint()
+        {
+            EmptyWorkingSet(Process.GetCurrentProcess().Handle);
+        }
     }
 }
