@@ -17,6 +17,8 @@ namespace SpaceWar
 
         static void Main(string[] args)
         {
+            Utility.ToggleEdit();
+
             SetupConsole(100, 41, true);
 
             //create a thread and play music
